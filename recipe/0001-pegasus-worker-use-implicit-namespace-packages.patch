@@ -1,0 +1,66 @@
+From 3b92f77c72effe25d9660d646086ba4484fdd928 Mon Sep 17 00:00:00 2001
+From: Duncan Macleod <duncan.macleod@ligo.org>
+Date: Mon, 1 Feb 2021 17:15:36 +0000
+Subject: [PATCH] pegasus-worker: use implicit namespace packages
+
+infrastructure code copied from pegasus-common
+---
+ packages/pegasus-worker/setup.py              | 19 +++++++++++++++++--
+ .../pegasus-worker/src/Pegasus/__init__.py    |  1 -
+ 2 files changed, 17 insertions(+), 3 deletions(-)
+ delete mode 100644 packages/pegasus-worker/src/Pegasus/__init__.py
+
+diff --git a/packages/pegasus-worker/setup.py b/packages/pegasus-worker/setup.py
+index 8351ec70e..cf863f833 100644
+--- a/packages/pegasus-worker/setup.py
++++ b/packages/pegasus-worker/setup.py
+@@ -1,7 +1,7 @@
+ import os
+ import subprocess
+ 
+-from setuptools import find_packages, setup
++from setuptools import setup
+ 
+ src_dir = os.path.dirname(__file__)
+ home_dir = os.path.abspath(os.path.join(src_dir, "../.."))
+@@ -34,6 +34,21 @@ def read(fname):
+     return open(os.path.join(src_dir, fname)).read()
+ 
+ 
++# TODO: Someday remove this method and replace with setuptools.find_namespace_packages
++def find_namespace_packages(where):
++    pkgs = []
++    for root, dirs, _ in os.walk(where):
++        root = root[len(where) + 1 :]
++        for pkg in dirs:
++            if pkg == where or pkg.endswith(".egg-info") or pkg == "__pycache__":
++                continue
++
++            pkgs.append(os.path.join(root, pkg).replace("/", "."))
++
++    return pkgs
++
++
++
+ setup(
+     name="pegasus-wms.worker",
+     version=read_version(),
+@@ -66,7 +81,7 @@ setup(
+         "License :: OSI Approved :: Apache Software License",
+     ],
+     package_dir={"": "src"},
+-    packages=find_packages(where="src"),
++    packages=find_namespace_packages(where="src"),
+     include_package_data=True,
+     zip_safe=False,
+     install_requires=install_requires,
+diff --git a/packages/pegasus-worker/src/Pegasus/__init__.py b/packages/pegasus-worker/src/Pegasus/__init__.py
+deleted file mode 100644
+index 8db66d3d0..000000000
+--- a/packages/pegasus-worker/src/Pegasus/__init__.py
++++ /dev/null
+@@ -1 +0,0 @@
+-__path__ = __import__("pkgutil").extend_path(__path__, __name__)
+-- 
+2.30.0
+
