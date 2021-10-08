@@ -1,5 +1,5 @@
 {% set name = "pegasus-wms.worker" %}
-{% set version = "5.0.0" %}
+{% set version = "5.0.1" %}
 
 package:
   name: {{ name | lower }}
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: 2976cda4691fa3ac014d71ca64a3197d53dc1f96b7597bcd51d3e71b021d6003
+  sha256: e84ba28280f7955099efb8a3556a9758a2581b432c13396a6b9b15c5ac51baf2
   patches:
     # https://github.com/pegasus-isi/pegasus/pull/27
     - 0001-pegasus-worker-use-implicit-namespace-packages.patch
@@ -16,19 +16,19 @@ source:
 
 build:
   noarch: python
-  number: 1
+  number: 0
   script: {{ PYTHON }} -m pip install . -vv
 
 requirements:
   host:
     - pip
-    - python
+    - python >=3.5
     - setuptools
   run:
-    - boto3
+    - boto3 >1.12,<1.18
     - globus-sdk >=1.4.1,<2.0.0a0
-    - python
-    - six >=1.9.1
+    - python >=3.5
+    - six >=1.9.0
 
 test:
   requires:
@@ -36,7 +36,9 @@ test:
   imports:
     - Pegasus.tools.worker_utils
   commands:
-    - pip check
+    # check requirements
+    - python -m pip check
+    # check cli
     - python -m Pegasus.cli.pegasus-globus-online-init --help
     - python -m Pegasus.cli.pegasus-globus-online --help
     - python -m Pegasus.cli.pegasus-integrity --help
@@ -44,6 +46,7 @@ test:
 
 about:
   home: https://pegasus.isi.edu
+  dev_url: https://github.com/pegasus-isi/pegasus.git
   license: Apache-2.0
   license_family: APACHE
   license_file: LICENSE
