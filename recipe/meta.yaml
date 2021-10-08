@@ -22,13 +22,13 @@ build:
 requirements:
   host:
     - pip
-    - python
+    - python >=3.5
     - setuptools
   run:
-    - boto3
+    - boto3 >1.12,<1.18
     - globus-sdk >=1.4.1,<2.0.0a0
-    - python
-    - six >=1.9.1
+    - python >=3.5
+    - six >=1.9.0
 
 test:
   requires:
@@ -36,7 +36,9 @@ test:
   imports:
     - Pegasus.tools.worker_utils
   commands:
-    - pip check
+    # check requirements
+    - python -m pip check
+    # check cli
     - python -m Pegasus.cli.pegasus-globus-online-init --help
     - python -m Pegasus.cli.pegasus-globus-online --help
     - python -m Pegasus.cli.pegasus-integrity --help
@@ -44,6 +46,7 @@ test:
 
 about:
   home: https://pegasus.isi.edu
+  dev_url: https://github.com/pegasus-isi/pegasus.git
   license: Apache-2.0
   license_family: APACHE
   license_file: LICENSE
