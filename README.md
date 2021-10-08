@@ -9,6 +9,8 @@ Feedstock license: [BSD-3-Clause](https://github.com/conda-forge/pegasus-wms.wor
 
 Summary: Pegasus Workflow Management System Python API
 
+Development: https://github.com/pegasus-isi/pegasus.git
+
 Current build status
 ====================
 
