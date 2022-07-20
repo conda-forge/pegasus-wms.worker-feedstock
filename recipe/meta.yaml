@@ -11,8 +11,6 @@ source:
   patches:
     # https://github.com/pegasus-isi/pegasus/pull/27
     - 0001-pegasus-worker-use-implicit-namespace-packages.patch
-    # loosen globus-sdk requirement
-    - requirements.patch
 
 build:
   noarch: python
@@ -25,8 +23,8 @@ requirements:
     - python >=3.5
     - setuptools
   run:
-    - boto3 >1.12,<1.18
-    - globus-sdk >=1.4.1,<2.0.0a0
+    - boto3 >1.12
+    - globus-sdk >=3.1.0
     - python >=3.5
     - six >=1.9.0
 
