@@ -1,5 +1,5 @@
 {% set name = "pegasus-wms.worker" %}
-{% set version = "5.0.7" %}
+{% set version = "5.0.8" %}
 
 package:
   name: {{ name | lower }}
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: 47b954dca4201042e0f0a84dfb856ad72baf4da28f21503fd0046264f64939ec
+  sha256: 90b25bdd9793f39ff5d2d50e58c611bf848c58dd32be9808c5d14e8883148cff
   patches:
     # https://github.com/pegasus-isi/pegasus/pull/27
     - 0001-pegasus-worker-use-implicit-namespace-packages.patch
@@ -20,12 +20,13 @@ build:
 requirements:
   host:
     - pip
-    - python >=3.5
-    - setuptools
+    - python >=3.6
+    - setuptools <69
+    - wheel
   run:
     - boto3 >1.12
-    - globus-sdk >=3.5.0
-    - python >=3.5
+    - globus-sdk >=3.23.0
+    - python >=3.6
     - six >=1.9.0
 
 test:
