@@ -1,13 +1,13 @@
 {% set name = "pegasus-wms.worker" %}
-{% set version = "5.0.8" %}
+{% set version = "5.0.9" %}
 
 package:
   name: {{ name | lower }}
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: 90b25bdd9793f39ff5d2d50e58c611bf848c58dd32be9808c5d14e8883148cff
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+  sha256: 1a3ea725ffe89b2637e459e950e3ffe7907f39a7f0923634585665bc3497a8fd
   patches:
     # https://github.com/pegasus-isi/pegasus/pull/27
     - 0001-pegasus-worker-use-implicit-namespace-packages.patch
